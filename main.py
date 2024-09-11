@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 random_integer = random.randint(13204394220997, 93204394220997)
 requests.packages.urllib3.disable_warnings()
-cookies='p_h5_u=DADEB53C-83B4-413D-B5C5-B52F0572FACD; selectedStreamLevel=LD; r117lf=35830f5f427f260c42e65025961b303e; Hm_lvt_af91e610eea7757cf9376392476fa295=1726042274; JSESSIONID=abc5slHUDHTRd-eMNyGhz; sangfor8822=22558280; timeStamp=1726046445313; requestToken=bc34e9c284f8b7cca2cd85fd335c1ceb; requestToken2=98ac1185d3cf37568aaa952f683bda4d; ssoLoginName=__27e6Vu7Ej7Nm8Jn9Vp8Yn9Cm9Yp9EsBXbBHuBSwCFoCSyDCcCQcEDf6Jf6Ub8Xv8Iv9KdABu93vA6rAMfCAhAIcDAoC4tCTjENkCTdDXw6Ph6Zx; s=aba1de16-0c26-483f-8541-fbdab541570d; cr=student; mid=m-aba1de16-0c26-483f-8541-fbdab541570d'
+cookies='p_h5_u= *************************cr=student; mid=*******************41570d'
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36','cookie': cookies }
 
 def startlearn(headers,itemId,attachId):

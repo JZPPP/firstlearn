@@ -5,3 +5,4 @@
   ### 3.自动学习下一个视频
 ## 需要自行填写cookie，抓一个播放界面或者列表界面的cookie都可以
 ## python main.py
+[https://www.bilibili.com/video/BV1j24EeBEPY/](https://www.bilibili.com/video/BV1j24EeBEPY/)

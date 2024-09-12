@@ -6,8 +6,20 @@ import time
 from bs4 import BeautifulSoup
 from datetime import datetime
 random_integer = random.randint(13204394220997, 93204394220997)
+# SSL报错尝试取消警告
 requests.packages.urllib3.disable_warnings()
-cookies='p_h5_u=DADEB53C-83B4-413D-B5C5-B52F0572FACD; selectedStreamLevel=LD; r117lf=35830f5f427f260c42e65025961b303e; Hm_lvt_af91e610eea7757cf9376392476fa295=1726042274; JSESSIONID=abc5slHUDHTRd-eMNyGhz; sangfor8822=22558280; timeStamp=1726046445313; requestToken=bc34e9c284f8b7cca2cd85fd335c1ceb; requestToken2=98ac1185d3cf37568aaa952f683bda4d; ssoLoginName=__27e6Vu7Ej7Nm8Jn9Vp8Yn9Cm9Yp9EsBXbBHuBSwCFoCSyDCcCQcEDf6Jf6Ub8Xv8Iv9KdABu93vA6rAMfCAhAIcDAoC4tCTjENkCTdDXw6Ph6Zx; s=aba1de16-0c26-483f-8541-fbdab541570d; cr=student; mid=m-aba1de16-0c26-483f-8541-fbdab541570d'
+cookies=''
+# 读取配置文件
+with open('config.json', 'r') as file:
+    config = json.load(file)
+cookies = config['DATABASE']['cookies']
+
+print(cookies)
+
+
+
+
+
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36','cookie': cookies }
 
 def startlearn(headers,itemId,attachId):
@@ -28,7 +40,8 @@ def learn(headers,itemId,attachId):
 def print_message(interval,value,itemId,attachId):
     startlearn(headers,itemId,attachId)
     timelearn=interval*60
-    while timelearn > 0:
+    print(value)
+    while (timelearn/60-value) > 0:
         now = datetime.now()
         # 格式化时间为字符串
         current_time = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -38,6 +51,7 @@ def print_message(interval,value,itemId,attachId):
         learn(headers,itemId,attachId)
 
     print("学习时间已足够，开始学习下一个")
+
 
 learntime_url='https://www.jste.net.cn/lfv5/learnContentLib/studentMain.action'
 learntime_response = requests.get(learntime_url, headers=headers, verify=False)
@@ -56,7 +70,7 @@ json_str = str(learn_time_data).replace("'", '"')
 # 解析为JSON对象
 data = json.loads(json_str)
 # 分别输出JSON中的信息
-print("已学课程信息：")
+print("已学课程信息：",data.items())
 for key, value in data.items():
     print(f"itemId: {key}, time: {value}")
 
@@ -69,19 +83,36 @@ learn_tag_time_text  = json.loads(learn_tag_time_text )
 #print(learn_tag_time_text)
 print("未学课程信息：")
 for item in learn_tag_time_text["itemList"]:
-    if item["maxLearnTime"] > 0:
-        for key, value in data.items():
-            #print('已学：',key,'未学：',item["itemId"],'已学视频itemId:',value,'未学时长：',item["maxLearnTime"])
-            if key == item["itemId"]:
-                print("当前视频已有学习记录。已学视频itemId:",key,'当前视频itemId:',item["itemId"])
-                if value >= item["maxLearnTime"]:
-                    print('当前视频学习时长已满足，跳过。已学时长：',value,'最大记录时长：',item["maxLearnTime"])
-                    break
-                else:
-                    print("开始学习：")
-                    print(f"itemTitle: {item['itemTitle']}")
-                    print(f"maxLearnTime: {item['maxLearnTime']}")
-                    print(f"itemId: {item['itemId']}")
-                    print(f"attachId: {item['attachId']}")
-                    print_message(int(item['maxLearnTime']),value,item['itemId'],item['attachId'])
+    #print(f"11itemId: {item['itemId']}",item["maxLearnTime"])
+    if int(item["maxLearnTime"]) != 0:
+        #print(f"33itemId: {item['itemId']}",data.items())
+        if str(item["itemId"]) in str(data.items()):
+            print(f"11itemId: {item['itemId']}",item["maxLearnTime"])
+            print("当前视频已有学习记录。已学视频itemId:",key,'当前视频itemId:',item["itemId"])
+            
+            if value >= item["maxLearnTime"]:
+                print('当前视频学习时长已满足，跳过。已学时长：',value,'最大记录时长：',item["maxLearnTime"])
+            # else:
+            #     print("已有记录，继续学习：")
+            #     print(f"itemTitle: {item['itemTitle']}")
+            #     print(f"maxLearnTime: {item['maxLearnTime']}")
+            #     print(f"itemId: {item['itemId']}")
+            #     print(f"attachId: {item['attachId']}")
+            #     print_message(int(item['maxLearnTime']),value,item['itemId'],item['attachId'])
+                
+        else:
+
+            print(f"22itemId: {item['itemId']}",data.items())
+
+            value=0
+            print("开始学习：")
+            print(f"itemTitle: {item['itemTitle']}")
+            print(f"maxLearnTime: {item['maxLearnTime']}")
+            print(f"itemId: {item['itemId']}")
+            print(f"attachId: {item['attachId']}")
+            print_message(int(item['maxLearnTime']),value,item['itemId'],item['attachId'])
+
+
+     
+
 

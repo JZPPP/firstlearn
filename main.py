@@ -21,9 +21,9 @@ print(cookies)
 
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36','cookie': cookies }
-
+#startlearn 发包开始学习
 def startlearn(headers,itemId,attachId):
-    start_record_url='https://www.jste.net.cn/lfv5/learnContentLib/startRecord.action?lcMaterialInfo.materialId=m-aba1de16-0c26-483f-8541-fbdab541570d&lcMaterialItem.itemId='+itemId+'&lcMaterialItem.attachId='+attachId+'&rnd=0.'+ str(random_integer)
+    start_record_url='https://www.jste.net.cn/lfv5/learnContentLib/startRecord.action?lcMaterialInfo.materialId=m-b789d04c-0f23-4b20-bdfd-908e70ce25f3&lcMaterialItem.itemId='+itemId+'&lcMaterialItem.attachId='+attachId+'&rnd=0.'+ str(random_integer)
     record_response = requests.get(start_record_url, headers=headers)
     #print(start_record_url,record_response.text)
     global record_id
@@ -31,9 +31,9 @@ def startlearn(headers,itemId,attachId):
     record_id = record_id["data"]["recordId"]
     print("获取学习记录码recordId:",record_id)
 
-
+#learn 发包学习
 def learn(headers,itemId,attachId):
-    record_url = 'https://www.jste.net.cn/lfv5/learnContentLib/updateRecord.action?recordId='+record_id+'&groupId=aba1de16-0c26-483f-8541-fbdab541570d&rnd=0.'+ str(random_integer)
+    record_url = 'https://www.jste.net.cn/lfv5/learnContentLib/updateRecord.action?recordId='+record_id+'&groupId=m-b789d04c-0f23-4b20-bdfd-908e70ce25f3&rnd=0.'+ str(random_integer)
     record_response = requests.get(record_url, headers=headers)
     print('当前学习提交状态：',record_response.text)
 
@@ -55,7 +55,7 @@ def print_message(interval,value,itemId,attachId):
 
 learntime_url='https://www.jste.net.cn/lfv5/learnContentLib/studentMain.action'
 learntime_response = requests.get(learntime_url, headers=headers, verify=False)
-#print(learntime_response.text)
+print(learntime_response.text)
 
 # 解析 HTML
 soup = BeautifulSoup(learntime_response.text, 'html.parser')
